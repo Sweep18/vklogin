@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Complete</title>
+</head>
+<body>
+    <h3>Пользователь:  {{user.last_name}} {{user.first_name}}</h3>
+    <h3>Друзья: </h3>
+    {% for friend in friends %}
+    <ul>{{friend.last_name}} {{friend.first_name}}</ul>
+    {% endfor %}
+    <p><a href="{% url 'logout' %}">Выход</a></p>
+</body>
+</html>
