@@ -5,11 +5,11 @@ import requests
 
 
 # ID приложения
-client_id = '5744475'
+client_id = '#####'
 # Защищенный ключ
-client_secret = 'VJMSQYpDxaWVWV1540Qz'
+client_secret = '#####'
 # Адрес сайта
-redirect_uri = 'http://127.0.0.1:8000/vkloginapp/complete/'
+redirect_uri = '######/vkloginapp/complete/'
 # Метод получения данных VK
 method_url = 'https://api.vk.com/method/'
 
