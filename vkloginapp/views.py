@@ -31,20 +31,23 @@ def home(request):
 def auth(request):
     # Запускаем авторизацию VK
     return redirect('https://oauth.vk.com/authorize?'
-                    'client_id=%s&redirect_uri=%s&scope=%s&display=%s'
-                    % (client_id, redirect_uri, 'email', 'page'))
+                    'client_id=%s&redirect_uri=%s&scope=%s&display=%s&response_type=%s'
+                    % (client_id, redirect_uri, 'email', 'page', 'code'))
 
 
 def complete(request):
     # Получаем данные пользователя
-    code = request.GET['code']
+    try:
+        code = request.GET['code']
+    except KeyError:
+        return render(request, 'home.html')
     par_token = {'client_id': client_id, 'client_secret': client_secret,
                  'redirect_uri': redirect_uri, 'code': code}
     response = requests.get('https://oauth.vk.com/access_token', params=par_token)
     token = response.json()['access_token']
     email = response.json()['email']
     response_user = requests.get(method_url + 'users.get',
-                                 params={'access_token': token})
+                                 params={'access_token': token, 'lang': 'ru'})
     user_vk = response_user.json()['response'][0]
     return create_user(request, user_vk, email)
 
@@ -52,7 +55,8 @@ def complete(request):
 def get_friends(user_id):
     # Получаем друзей
     response_friends = requests.get(method_url + 'friends.get',
-                                    params={'user_id': user_id, 'count': '5', 'fields': '[nickname]'})
+                                    params={'user_id': user_id, 'count': '5',
+                                            'fields': '[nickname]', 'lang': 'ru'})
     friends = response_friends.json()['response']
     return friends
 
